@@ -1,2 +1,2 @@
-10.184.1.230
-10.184.1.236
+10.184.1.230 ansible_user=debian
+10.184.1.236 ansible_user=rocky
