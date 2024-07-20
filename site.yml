@@ -4,12 +4,14 @@
   pre_tasks:
 
     - name: install updates for rocky
+      tags: always
       ansible.builtin.dnf:
         update_only: yes
         update_cache: yes
       when: ansible_distribution == "Rocky"
 
     - name: install updates for debian
+      tags: always
       ansible.builtin.apt:
         upgrade: dist
         update_cache: yes
@@ -20,6 +22,7 @@
   tasks:
 
     - name: install apache on web servers
+      tags: apache, debian
       ansible.builtin.apt:
         name:
           - apache2
@@ -27,6 +30,7 @@
       when: ansible_distribution == "Debian"
 
 - hosts: db_servers
+  tags: db, rocky
   become: true
   tasks:
 
