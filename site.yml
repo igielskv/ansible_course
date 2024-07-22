@@ -17,6 +17,29 @@
         update_cache: yes
       when: ansible_distribution == "Debian"
 
+    - name: create user
+      tags: always
+      ansible.builtin.user:
+        name: simone
+        groups: root
+
+    - name: allow simone user for passwordless sudo
+      tags: always
+      community.general.sudoers:
+        name: simone
+        state: present
+        user: simone
+        runas: ALL
+        commands: ALL
+
+    - name: add authorized ssh key for simone
+      tags: always
+      ansible.posix.authorized_key:
+        user: simone
+        state: present
+        key: "{{ lookup('file', '~/.ssh/ansible.pub') }}"
+
+
 - hosts: web_servers
   become: true
   tasks:
@@ -60,10 +83,6 @@
         backup: yes
       when: ansible_distribution == "Rocky"
       register: httpd
-
-    - name: Display httpd
-      ansible.builtin.debug:
-        var: httpd
 
     - name: restart httpd (rocky)
       tags: apache, rocky
