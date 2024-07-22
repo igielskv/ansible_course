@@ -1,0 +1,22 @@
+---
+- name: create user
+  tags: always
+  ansible.builtin.user:
+    name: simone
+    groups: root
+
+- name: add sudoers file for simone
+  tags: always
+  community.general.sudoers:
+    name: simone
+    state: present
+    user: simone
+    runas: ALL
+    commands: ALL
+
+- name: add ssh key for simone user
+  tags: always
+  ansible.posix.authorized_key:
+    user: simone
+    state: present
+    key: "{{ lookup('file', '~/.ssh/ansible.pub') }}"
