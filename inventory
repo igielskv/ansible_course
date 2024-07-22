@@ -1,5 +1,6 @@
 [web_servers]
 10.184.1.230 ansible_user=debian apache_package=apache2 php_package=libapache2-mod-php
+10.184.1.236
 
 [db_servers]
 10.184.1.236 ansible_user=rocky apache_package=httpd php_package=php
